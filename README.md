@@ -1,8 +1,8 @@
 # server-kit
 
-Starter for an API server for exposing endpoints (JSON/HTTP) for other clients (frontend, mobile, other services).
+Starter for modern API server projects.
 
-## Tech Stack
+### Tech Stack
 | Description | Name |
 | --- | --- |
 | Language/runtime | [Python](https://www.python.org/) |
