@@ -1,6 +1,15 @@
 # server-kit
 
-Modern web app starter.
+Modern web app backend starter.
+
+#### Tech Stack
+| Description | Name |
+| --- | --- |
+| Language/runtime | [Python](https://www.python.org/) |
+| Web framework and server | [FastAPI](https://fastapi.tiangolo.com/) (+ [Uvicorn](https://www.uvicorn.org/))|
+| Test framework | [Pytest](https://docs.pytest.org/) |
+| Linting and formatting tool | [Ruff](https://docs.astral.sh/ruff/) |
+| Dependency management and task runner | [uv](https://docs.astral.sh/uv/) |
 
 ## TODO
 - [x] init project with `uv`
@@ -19,10 +28,10 @@ uv sync
 uv run fastapi dev src/server_kit/main.py
 ```
 
-## Quality checks
+## Linter and Formatter
 ```bash
 uv run ruff check
-uv run ruff format --check
+uv run ruff format
 ```
 
 ## Tests
