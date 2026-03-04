@@ -1,8 +1,8 @@
 # server-kit
 
-Modern web app backend starter.
+Starter for an API server for exposing endpoints (JSON/HTTP) for other clients (frontend, mobile, other services).
 
-#### Tech Stack
+## Tech Stack
 | Description | Name |
 | --- | --- |
 | Language/runtime | [Python](https://www.python.org/) |
