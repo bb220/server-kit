@@ -7,7 +7,7 @@ Modern web app starter.
 - [x] scaffold FastAPI app, async route handlers
 - [x] configure ruff for linting/formatting checks
 - [x] set up test suite
-- [ ] CI/CD github workflow
+- [x] CI/CD github workflow
 - [ ] set up logging
 - [ ] ORM + lite DB + migrations
 - [ ] async for I/O operations
