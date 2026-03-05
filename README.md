@@ -1,11 +1,10 @@
 # server-kit
 
-Starter for modern API server projects.
+Starter for modern server projects.
 
 ### Tech Stack
 | Description | Name |
 | --- | --- |
-| Language/runtime | [Python](https://www.python.org/) |
 | Web framework and server | [FastAPI](https://fastapi.tiangolo.com/) (+ [Uvicorn](https://www.uvicorn.org/))|
 | Test framework | [Pytest](https://docs.pytest.org/) |
 | Linting and formatting tool | [Ruff](https://docs.astral.sh/ruff/) |
