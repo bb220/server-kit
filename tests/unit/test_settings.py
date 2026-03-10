@@ -11,12 +11,13 @@ def reset_settings_cache():
     get_settings.cache_clear()
 
 
-def test_settings_raises_validation_error_when_log_level_unset(monkeypatch, tmp_path):
+def test_settings_log_level_defaults_when_unset(monkeypatch, tmp_path):
     monkeypatch.chdir(tmp_path)
     monkeypatch.delenv("LOG_LEVEL", raising=False)
 
-    with pytest.raises(ValidationError):
-        get_settings()
+    settings = get_settings()
+
+    assert settings.log_level == "INFO"
 
 
 def test_settings_reads_log_level_from_env(monkeypatch, tmp_path):

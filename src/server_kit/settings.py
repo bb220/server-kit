@@ -9,7 +9,7 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
     )
 
-    log_level: str
+    log_level: str = "INFO"
 
 
 @lru_cache
