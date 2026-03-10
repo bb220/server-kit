@@ -1,11 +1,12 @@
 # server-kit
 
-Starter for modern server projects.
+Starter for modern python server projects.
 
 ### Tech Stack
 | Description | Name |
 | --- | --- |
 | Web framework and server | [FastAPI](https://fastapi.tiangolo.com/) (+ [Uvicorn](https://www.uvicorn.org/))|
+| Config loading | [pydantic-settings](https://docs.pydantic.dev/latest/concepts/pydantic_settings/) |
 | Test framework | [Pytest](https://docs.pytest.org/) |
 | Linting and formatting tool | [Ruff](https://docs.astral.sh/ruff/) |
 | Dependency management and task runner | [uv](https://docs.astral.sh/uv/) |
@@ -16,6 +17,7 @@ Starter for modern server projects.
 - [x] configure ruff for linting/formatting checks
 - [x] set up test suite
 - [x] CI/CD github workflow
+- [x] config loading
 - [ ] set up logging
 - [ ] ORM + lite DB + migrations
 - [ ] async for I/O operations
@@ -38,3 +40,8 @@ uv run ruff format
 uv run pytest
 uv run pytest -m integration
 ```
+
+## Configuration
+- Config is loaded from the env
+- Local config can be loaded from `.env`
+  - Copy `.env.example` and adjust values.
