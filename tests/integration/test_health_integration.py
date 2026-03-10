@@ -1,6 +1,3 @@
-import pytest
-
-
 def test_health_endpoint_returns_200_and_expected_payload(client):
     response = client.get("/health")
 

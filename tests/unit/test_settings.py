@@ -1,5 +1,4 @@
 import pytest
-from pydantic import ValidationError
 
 from server_kit.settings import get_settings
 
