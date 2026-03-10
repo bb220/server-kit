@@ -10,15 +10,13 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "fastapi[standard]>=0.135.1",
+    "pydantic-settings>=2.11.0",
 ]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = "-ra"
-markers = [
-    "integration",
-]
 
 [tool.setuptools]
 package-dir = {"" = "src"}

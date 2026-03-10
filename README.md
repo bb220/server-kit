@@ -38,3 +38,7 @@ uv run ruff format
 uv run pytest
 uv run pytest -m integration
 ```
+
+## Configuration
+- Local config is loaded from `.env`
+- Copy `.env.example` to `.env` and adjust values for local development
