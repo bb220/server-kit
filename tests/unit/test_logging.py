@@ -21,13 +21,15 @@ def test_configure_logging_uses_console_renderer_for_dev(capsys):
 def test_configure_logging_uses_json_renderer_for_json(capsys):
     configure_logging(Settings(log_format="json", log_level="INFO"))
 
-    get_logger("server_kit.test").info("json_log", feature="logging")
+    get_logger("server_kit.test").info("app.startup", feature="logging")
 
     output = capsys.readouterr().out.strip()
     event = json.loads(output)
-    assert event["event"] == "json_log"
+    assert event["event"] == "app.startup"
     assert event["feature"] == "logging"
     assert event["level"] == "info"
+    assert "timestamp" in event
+    assert event["logger"] == "server_kit.test"
 
 
 def test_stdlib_logger_uses_structlog_formatter(capsys):
@@ -45,12 +47,24 @@ def test_stdlib_logger_uses_structlog_formatter(capsys):
 def test_request_contextvars_are_merged_into_logs(capsys):
     configure_logging(Settings(log_format="json", log_level="INFO"))
     structlog.contextvars.clear_contextvars()
-    structlog.contextvars.bind_contextvars(request_id="req-123")
+    structlog.contextvars.bind_contextvars(
+        request_id="req-123",
+        method="GET",
+        path="/health",
+    )
 
-    get_logger("server_kit.test").info("bound_log")
+    get_logger("server_kit.test").info(
+        "http.request.completed",
+        status_code=200,
+        duration_ms=3.5,
+    )
 
     output = capsys.readouterr().out.strip()
     structlog.contextvars.clear_contextvars()
     event = json.loads(output)
-    assert event["event"] == "bound_log"
+    assert event["event"] == "http.request.completed"
     assert event["request_id"] == "req-123"
+    assert event["method"] == "GET"
+    assert event["path"] == "/health"
+    assert event["status_code"] == 200
+    assert event["duration_ms"] == 3.5

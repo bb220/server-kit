@@ -25,13 +25,16 @@ def test_unhandled_exceptions_are_logged_with_request_context(monkeypatch, capsy
     ]
     events = [json.loads(line) for line in output_lines]
     error_event = next(
-        event for event in events if event["event"] == "unhandled_exception"
+        event for event in events if event["event"] == "http.request.failed"
     )
 
     assert response.status_code == 500
-    assert error_event["event"] == "unhandled_exception"
+    assert error_event["event"] == "http.request.failed"
     assert error_event["level"] == "error"
     assert error_event["request_id"] == "req-123"
     assert error_event["method"] == "GET"
     assert error_event["path"] == "/boom"
+    assert error_event["status_code"] == 500
+    assert isinstance(error_event["duration_ms"], float)
+    assert error_event["duration_ms"] >= 0
     assert "RuntimeError: boom" in error_event["exception"]

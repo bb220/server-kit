@@ -1,4 +1,5 @@
 from contextlib import asynccontextmanager
+from time import perf_counter_ns
 from uuid import uuid4
 
 import structlog
@@ -17,7 +18,7 @@ async def lifespan(app: FastAPI):
     configure_logging(settings)
 
     logger.info(
-        "application_started",
+        "app.startup",
         log_format=settings.log_format,
     )
     yield
@@ -30,6 +31,7 @@ def create_app() -> FastAPI:
 
     @app.middleware("http")
     async def bind_request_logging_context(request: Request, call_next):
+        started_at_ns = perf_counter_ns()
         structlog.contextvars.clear_contextvars()
         request_id = request.headers.get("X-Request-ID", str(uuid4()))
         request.state.request_id = request_id
@@ -42,18 +44,28 @@ def create_app() -> FastAPI:
         try:
             response = await call_next(request)
         except Exception:
+            duration_ms = (perf_counter_ns() - started_at_ns) / 1_000_000
             logger.exception(
-                "unhandled_exception",
+                "http.request.failed",
                 request_id=request_id,
                 method=request.method,
                 path=request.url.path,
+                status_code=500,
+                duration_ms=duration_ms,
             )
             raise
+
+        duration_ms = (perf_counter_ns() - started_at_ns) / 1_000_000
+        logger.info(
+            "http.request.completed",
+            status_code=response.status_code,
+            duration_ms=duration_ms,
+        )
+        response.headers["X-Request-ID"] = request_id
+        try:
+            return response
         finally:
             structlog.contextvars.clear_contextvars()
-
-        response.headers["X-Request-ID"] = request_id
-        return response
 
     app.include_router(router)
     return app
