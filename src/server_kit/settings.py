@@ -1,4 +1,5 @@
 from functools import lru_cache
+from typing import Literal
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -9,7 +10,8 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
     )
 
-    log_level: str = "INFO"
+    log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
+    log_format: Literal["dev", "json"] = "dev"
 
 
 @lru_cache

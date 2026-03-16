@@ -18,7 +18,7 @@ Starter for modern python server projects.
 - [x] set up test suite
 - [x] CI/CD github workflow
 - [x] config loading
-- [ ] set up logging
+- [x] set up logging
 - [ ] ORM + lite DB + migrations
 - [ ] async for I/O operations
 - [ ] integrate 3rd-party service
@@ -28,6 +28,12 @@ Starter for modern python server projects.
 uv sync
 uv run fastapi dev src/server_kit/main.py
 ```
+
+## Logging
+- App logs use `structlog`
+- `LOG_FORMAT=dev` renders readable local logs
+- `LOG_FORMAT=json` renders production-style JSON for app and stdlib loggers, including `uvicorn`
+- Each request gets an `X-Request-ID` that is bound into the log context
 
 ## Linter and Formatter
 ```bash
