@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "skills": {
+    "api-design-framework": {
+      "source": "bb220/skills",
+      "sourceType": "github",
+      "computedHash": "aa4e1684581acd252593e729ea906f73b467a92a40a7ce9507fc82a43a6e1415"
+    },
+    "python-backend": {
+      "source": "bb220/skills",
+      "sourceType": "github",
+      "computedHash": "cdcff5586768e1c72b3616dc5818da5eae9e86b53317725de54752839397efa2"
+    },
+    "sqlalchemy-2-async": {
+      "source": "bb220/skills",
+      "sourceType": "github",
+      "computedHash": "296a65fb20d9b47636dec9dac9c912f18e1a8b4a316a4c9e684231a472a0bb6a"
+    }
+  }
+}
