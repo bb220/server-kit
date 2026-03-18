@@ -21,7 +21,9 @@ def test_app_lifespan_disposes_database_engine(monkeypatch):
         nonlocal disposed_engine
         disposed_engine = engine
 
-    monkeypatch.setattr("server_kit.main.dispose_database_engine", fake_dispose_database_engine)
+    monkeypatch.setattr(
+        "server_kit.main.dispose_database_engine", fake_dispose_database_engine
+    )
 
     with TestClient(app):
         engine = app.state.db_engine

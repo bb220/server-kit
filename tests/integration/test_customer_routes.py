@@ -23,7 +23,10 @@ def test_customer_crud_endpoints(monkeypatch):
             assert create_response.status_code == 201
             created_customer = create_response.json()
             customer_id = created_customer["id"]
-            assert create_response.headers["Location"] == f"/api/v1/customers/{customer_id}"
+            assert (
+                create_response.headers["Location"]
+                == f"/api/v1/customers/{customer_id}"
+            )
 
             get_response = client.get(f"/api/v1/customers/{customer_id}")
             assert get_response.status_code == 200

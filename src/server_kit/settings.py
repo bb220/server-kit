@@ -12,7 +12,9 @@ class Settings(BaseSettings):
 
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
     log_format: Literal["dev", "json"] = "dev"
-    database_url: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/server_kit"
+    database_url: str = (
+        "postgresql+asyncpg://postgres:postgres@localhost:5432/server_kit"
+    )
     database_pool_size: int = 10
     database_max_overflow: int = 20
     database_pool_timeout: int = 30

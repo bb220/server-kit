@@ -50,7 +50,9 @@ async def check_database_connection(engine: AsyncEngine) -> bool:
 
 
 async def get_db_session(request: Request) -> AsyncGenerator[AsyncSession, None]:
-    session_factory: async_sessionmaker[AsyncSession] = request.app.state.session_factory
+    session_factory: async_sessionmaker[AsyncSession] = (
+        request.app.state.session_factory
+    )
 
     async with session_factory() as session:
         try:

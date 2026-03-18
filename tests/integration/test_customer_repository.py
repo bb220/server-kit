@@ -4,7 +4,11 @@ from sqlalchemy.ext.asyncio import async_sessionmaker
 from server_kit.db.session import create_session_factory
 from server_kit.repositories import CustomerRepository
 from server_kit.schemas import CustomerCreate, CustomerUpdate
-from tests.support.database import create_test_engine, run_alembic_upgrade, temporary_database
+from tests.support.database import (
+    create_test_engine,
+    run_alembic_upgrade,
+    temporary_database,
+)
 
 
 @pytest.mark.anyio

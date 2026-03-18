@@ -48,7 +48,10 @@ def test_settings_read_values_from_environment(monkeypatch, tmp_path):
 
     assert settings.log_level == "DEBUG"
     assert settings.log_format == "json"
-    assert settings.database_url == "postgresql+asyncpg://app:secret@db.internal:5432/customers"
+    assert (
+        settings.database_url
+        == "postgresql+asyncpg://app:secret@db.internal:5432/customers"
+    )
     assert settings.database_pool_size == 5
     assert settings.database_max_overflow == 8
     assert settings.database_pool_timeout == 15
@@ -84,7 +87,10 @@ def test_settings_read_values_from_dotenv(monkeypatch, tmp_path):
 
     assert settings.log_level == "INFO"
     assert settings.log_format == "json"
-    assert settings.database_url == "postgresql+asyncpg://dotenv:dotenv@localhost:5432/dotenv_db"
+    assert (
+        settings.database_url
+        == "postgresql+asyncpg://dotenv:dotenv@localhost:5432/dotenv_db"
+    )
     assert settings.database_pool_size == 12
     assert settings.database_max_overflow == 4
     assert settings.database_pool_timeout == 45

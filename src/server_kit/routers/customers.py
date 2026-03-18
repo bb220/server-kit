@@ -55,7 +55,9 @@ async def get_customer(
 ) -> CustomerRead:
     customer = await repository.get_by_id(customer_id)
     if customer is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Customer not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Customer not found"
+        )
     return CustomerRead.model_validate(customer)
 
 
@@ -67,7 +69,9 @@ async def update_customer(
 ) -> CustomerRead:
     customer = await repository.get_by_id(customer_id)
     if customer is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Customer not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Customer not found"
+        )
 
     updated_customer = await repository.update(customer, payload)
     return CustomerRead.model_validate(updated_customer)
@@ -80,7 +84,9 @@ async def delete_customer(
 ) -> Response:
     customer = await repository.get_by_id(customer_id)
     if customer is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Customer not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Customer not found"
+        )
 
     await repository.delete(customer)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
