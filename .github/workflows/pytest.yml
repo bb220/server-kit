@@ -6,6 +6,28 @@ on:
 jobs:
   pytest:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/server_kit
+      DATABASE_POOL_SIZE: "10"
+      DATABASE_MAX_OVERFLOW: "20"
+      DATABASE_POOL_TIMEOUT: "30"
+      DATABASE_POOL_RECYCLE: "3600"
+      DATABASE_ECHO: "false"
+
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: server_kit
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d server_kit"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
       - name: Checkout code
@@ -21,6 +43,9 @@ jobs:
 
       - name: Install dependencies
         run: uv sync --frozen
+
+      - name: Run migrations
+        run: uv run alembic -c alembic.ini upgrade head
 
       - name: Run integration tests
         run: uv run pytest tests/integration -q
