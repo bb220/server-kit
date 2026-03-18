@@ -11,18 +11,6 @@ Starter for modern python server projects.
 | Linting and formatting tool | [Ruff](https://docs.astral.sh/ruff/) |
 | Dependency management and task runner | [uv](https://docs.astral.sh/uv/) |
 
-## TODO
-- [x] init project with `uv`
-- [x] scaffold FastAPI app, async route handlers
-- [x] configure ruff for linting/formatting checks
-- [x] set up test suite
-- [x] CI/CD github workflow
-- [x] config loading
-- [x] set up logging
-- [ ] ORM + lite DB + migrations
-- [ ] async for I/O operations
-- [ ] integrate 3rd-party service
-
 ## Quickstart
 ```bash
 uv sync
