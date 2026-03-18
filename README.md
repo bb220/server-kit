@@ -51,3 +51,10 @@ uv run pytest -m integration
 - Config is loaded from the env
 - Local config can be loaded from `.env`
   - Copy `.env.example` and adjust values.
+- Database-related config is also loaded from `.env`
+  - `DATABASE_URL`
+  - `DATABASE_POOL_SIZE`
+  - `DATABASE_MAX_OVERFLOW`
+  - `DATABASE_POOL_TIMEOUT`
+  - `DATABASE_POOL_RECYCLE`
+  - `DATABASE_ECHO`
