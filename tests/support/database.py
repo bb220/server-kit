@@ -1,8 +1,9 @@
+import asyncio
 import os
 import subprocess
 import sys
 from collections.abc import AsyncIterator
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, contextmanager
 from pathlib import Path
 from uuid import uuid4
 
@@ -76,3 +77,43 @@ async def table_exists(database_url: str, table_name: str) -> bool:
 
 def create_test_engine(database_url: str) -> AsyncEngine:
     return create_async_engine(database_url)
+
+
+async def _create_database(admin_database_url: str, database_name: str) -> None:
+    admin_engine = create_async_engine(admin_database_url, isolation_level="AUTOCOMMIT")
+    try:
+        async with admin_engine.connect() as connection:
+            await connection.execute(text(f'CREATE DATABASE "{database_name}"'))
+    finally:
+        await admin_engine.dispose()
+
+
+async def _drop_database(admin_database_url: str, database_name: str) -> None:
+    admin_engine = create_async_engine(admin_database_url, isolation_level="AUTOCOMMIT")
+    try:
+        async with admin_engine.connect() as connection:
+            await connection.execute(
+                text(
+                    "SELECT pg_terminate_backend(pid) "
+                    "FROM pg_stat_activity "
+                    "WHERE datname = :database_name AND pid <> pg_backend_pid()"
+                ),
+                {"database_name": database_name},
+            )
+            await connection.execute(text(f'DROP DATABASE IF EXISTS "{database_name}"'))
+    finally:
+        await admin_engine.dispose()
+
+
+@contextmanager
+def temporary_database_sync(prefix: str):
+    base_database_url = get_base_database_url()
+    database_name = f"{prefix}_{uuid4().hex}"
+    admin_database_url = build_database_url(base_database_url, "postgres")
+    database_url = build_database_url(base_database_url, database_name)
+
+    asyncio.run(_create_database(admin_database_url, database_name))
+    try:
+        yield database_url
+    finally:
+        asyncio.run(_drop_database(admin_database_url, database_name))
