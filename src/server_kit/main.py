@@ -6,6 +6,11 @@ import structlog
 from fastapi import FastAPI, Request
 
 from server_kit.api import router
+from server_kit.db import (
+    create_database_engine,
+    create_session_factory,
+    dispose_database_engine,
+)
 from server_kit.logging import configure_logging, get_logger
 from server_kit.settings import Settings, get_settings
 
@@ -16,12 +21,15 @@ logger = get_logger(__name__)
 async def lifespan(app: FastAPI):
     settings: Settings = app.state.settings
     configure_logging(settings)
+    app.state.db_engine = create_database_engine(settings)
+    app.state.session_factory = create_session_factory(app.state.db_engine)
 
     logger.info(
         "app.startup",
         log_format=settings.log_format,
     )
     yield
+    await dispose_database_engine(app.state.db_engine)
 
 
 def create_app() -> FastAPI:

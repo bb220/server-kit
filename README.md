@@ -11,23 +11,19 @@ Starter for modern python server projects.
 | Linting and formatting tool | [Ruff](https://docs.astral.sh/ruff/) |
 | Dependency management and task runner | [uv](https://docs.astral.sh/uv/) |
 
-## TODO
-- [x] init project with `uv`
-- [x] scaffold FastAPI app, async route handlers
-- [x] configure ruff for linting/formatting checks
-- [x] set up test suite
-- [x] CI/CD github workflow
-- [x] config loading
-- [x] set up logging
-- [ ] ORM + lite DB + migrations
-- [ ] async for I/O operations
-- [ ] integrate 3rd-party service
-
 ## Quickstart
 ```bash
 uv sync
+docker compose up -d postgres
 uv run fastapi dev src/server_kit/main.py
 ```
+
+The local Postgres service in `compose.yml` uses the same defaults as `.env.example`:
+- host: `localhost`
+- port: `5432`
+- database: `server_kit`
+- user: `postgres`
+- password: `postgres`
 
 ## Logging
 - App logs use `structlog`
@@ -51,3 +47,10 @@ uv run pytest -m integration
 - Config is loaded from the env
 - Local config can be loaded from `.env`
   - Copy `.env.example` and adjust values.
+- Database-related config is also loaded from `.env`
+  - `DATABASE_URL`
+  - `DATABASE_POOL_SIZE`
+  - `DATABASE_MAX_OVERFLOW`
+  - `DATABASE_POOL_TIMEOUT`
+  - `DATABASE_POOL_RECYCLE`
+  - `DATABASE_ECHO`
