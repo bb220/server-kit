@@ -26,8 +26,16 @@ Starter for modern python server projects.
 ## Quickstart
 ```bash
 uv sync
+docker compose up -d postgres
 uv run fastapi dev src/server_kit/main.py
 ```
+
+The local Postgres service in `compose.yml` uses the same defaults as `.env.example`:
+- host: `localhost`
+- port: `5432`
+- database: `server_kit`
+- user: `postgres`
+- password: `postgres`
 
 ## Logging
 - App logs use `structlog`
