@@ -1,6 +1,7 @@
 from collections.abc import AsyncGenerator
 
 from fastapi import Request
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
     AsyncSession,
@@ -36,6 +37,16 @@ def create_session_factory(
 
 async def dispose_database_engine(engine: AsyncEngine) -> None:
     await engine.dispose()
+
+
+async def check_database_connection(engine: AsyncEngine) -> bool:
+    try:
+        async with engine.connect() as connection:
+            await connection.execute(text("SELECT 1"))
+    except Exception:
+        return False
+
+    return True
 
 
 async def get_db_session(request: Request) -> AsyncGenerator[AsyncSession, None]:
